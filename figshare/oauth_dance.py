@@ -46,7 +46,7 @@ def oauth_dance(app_name, consumer_key, consumer_secret, token_filename=None):
     """
     print("Hi there! We're gonna get you all set up to use %s." % app_name)
     auth = OAuth1Session(consumer_key, consumer_secret)
-    access_token = auth.fetch_access_token('http://api.figshare.com/v1/pbl/oauth/request_token')
+    auth.fetch_request_token('http://api.figshare.com/v1/pbl/oauth/request_token')
 
     print("""
 In the web browser window that opens please choose to Allow
@@ -70,7 +70,7 @@ your PIN:
 
 """ + oauth_url)
     oauth_verifier = _input("Please enter the PIN: ").strip()
-    access_token = auth.fetch_access_token('http://api.figshare.com/v1/pbl/oauth/access_token?oauth_verifier=%s' % oauth_verifier)
+    access_token = auth.fetch_access_token('http://api.figshare.com/v1/pbl/oauth/access_token', verifier=oauth_verifier.decode())
     oauth_token = access_token['oauth_token']
     oauth_token_secret = access_token['oauth_token_secret']
 
